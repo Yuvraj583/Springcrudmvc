@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Employees</title>
+</head>
+<body>
+	<h1>Employee List</h1>
+
+	<!-- Logout link 
+    <div>
+        <a th:href="@{/logout}">Logout</a>
+    </div>   -->
+
+	<form th:action="@{/employees/add}" method="post">
+		<input type="text" name="name" placeholder="Name" required> <input
+			type="email" name="email" placeholder="Email" required> <input
+			type="salary" name="salary" placeholder="Salary" required>
+
+		<button type="submit">Add</button>
+	</form>
+
+	<form th:action="@{/employees/search}" method="get">
+		<input type="text" name="keyword" placeholder="Search by name"
+			th:value="${keyword}">
+		<button type="submit">Search</button>
+	</form>
+
+
+
+	<!-- Sorting options        
+ 
+  
+    <form method="get" action="/employees">
+        <label for="sortBy">Sort By:</label>
+        <select name="sortBy" id="sortBy" onchange="this.form.submit()">
+            <option value="name" th:selected="${sortBy == 'name'}">Name</option>
+            <option value="email" th:selected="${sortBy == 'email'}">Email</option>
+            <option value="salary" th:selected="${sortBy == 'salary'}">Salary</option>
+        </select>
+    </form>    -->
+
+
+
+	<!-- Sorting options -->
+	<form method="get" action="/employees">
+		<label for="sortBy">Sort By:</label> <select name="sortBy" id="sortBy"
+			onchange="this.form.submit()">
+			<option value="id" th:selected="${sortBy == 'id'}">Id</option>
+			<option value="name" th:selected="${sortBy == 'name'}">Name</option>
+			<option value="email" th:selected="${sortBy == 'email'}">Email</option>
+			<option value="salary" th:selected="${sortBy == 'salary'}">Salary</option>
+		</select> <label for="sortOrder">Order:</label> <select name="sortOrder"
+			id="sortOrder" onchange="this.form.submit()">
+			<option value="asc" th:selected="${sortOrder == 'asc'}">Ascending</option>
+			<option value="desc" th:selected="${sortOrder == 'desc'}">Descending</option>
+		</select>
+	</form>
+
+
+
+
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Salary</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="employee : ${employees}">
+				<td th:text="${employee.id}"></td>
+				<td th:text="${employee.name}"></td>
+				<td th:text="${employee.email}"></td>
+				<td th:text="${employee.salary}"></td>
+
+				<td><a th:href="@{/employees/edit/{id}(id=${employee.id})}">Edit</a>
+					<a th:href="@{/employees/delete/{id}(id=${employee.id})}">Delete</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
